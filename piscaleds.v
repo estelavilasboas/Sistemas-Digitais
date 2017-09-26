@@ -16,9 +16,9 @@ module piscaleds(
 			
 		end else begin
 		   if(SW[0] == 1) begin
-				contador <= contador+15;
+				contador <= contador+5;
 			end else begin
-				contador <= contador+2;
+				contador <= contador+1;
 			end
 		end
 	end
