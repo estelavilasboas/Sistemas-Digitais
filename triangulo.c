@@ -38,7 +38,6 @@ void desenha(int x1, int y1, int x2, int y2, int x3, int y3, int x, int y){
 }
  
 int main(){
-
 	int x1 = 0, y1 = 0, x2 = 20, y2 = 0, x3 = 20, y3 = 30, x, y;
 
 	printf("Insira as coordenadas: ");
