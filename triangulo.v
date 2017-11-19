@@ -14,12 +14,14 @@ module Area(
     reg [21:0] area = 0;
     assign s = area;
 
+    //Utilizando a fórmula do Trabalho 2
+
     wire [11:0] Sy2y3;       //subtração y do ponto 2 e y do ponto 3
     wire [11:0] Sy3y1;       //subtração y do ponto 3 e y do ponto 1
     wire [11:0] Sy1y2;       //subtração y do ponto 1 e y do ponto 2
     
-    wire [21:0] Mx1, Mx2, Mx3;   //multiplicação por x do ponto 1, x do ponto 2 e xdo ponto 3, e adição de todos
-    wire signed [21:0] Ad;
+    wire [21:0] Mx1, Mx2, Mx3, Ad;   //multiplicação por x do ponto 1, x do ponto 2 e x do ponto 3, e adição de todos
+    wire signed [21:0] Div;         //Divisão por 2
     
     assign Sy2y3 = (y2 - y3);
     assign Sy3y1 = (y3 - y1);
@@ -31,11 +33,13 @@ module Area(
     
     assign Ad = (Mx1 + Mx2 + Mx3);
 
+    assign Div = (Ad/2);
+
     always @(x1 or y1 or x2 or y2 or x3 or y3) begin
-        area = $abs(Ad);
-    end
-    
+        area = $abs(Div);           //valor absoluto
+    end  
 endmodule
+
 
 module Verifica(
     input [11:0]x1,
@@ -50,11 +54,8 @@ module Verifica(
     input [11:0]x,
     input [11:0]y,
 
-    output in
+    output inside
 );
-
-    reg inside;
-    assign in = inside;
 
     wire signed[21:0] s, s1, s2, s3;
 
@@ -63,15 +64,7 @@ module Verifica(
     Area a2(x1, y1, x, y, x3, y3, s2);
     Area a3(x1, y1, x2, y2, x, y, s3);
 
-    always @(s1 or s2 or s3 or s) begin
-        if ( s >= (s1 + s2 +s3)) begin
-            inside = 1;
-
-        end else begin
-            inside = 0;
-        end
-    end
-
+    assign inside = ( s >= (s1 + s2 +s3) ) ? 1 : 0;
 endmodule
 
 
@@ -97,15 +90,29 @@ module testbench;
         y2 <= 0;
         x3 <= 20;
         y3 <= 30;
-        x <= 0;
+        x <= 10;
         y <= 5;
 
         #2 
         $display("\nPonto escolhido: %d %d  Triangulo: %d %d  %d %d  %d %d\nDentro? %d", x, y, x1, y1, x2, y2, x3, y3, resul);
+        #2
+
+        x <= 0;
+
+        #2 
+        $display("\nPonto escolhido: %d %d  Triangulo: %d %d  %d %d  %d %d\nDentro? %d", x, y, x1, y1, x2, y2, x3, y3, resul);
+        #2
+
+        x3 <= 25;
+        y3 <= 25;
+        x <= 0;
+        y <= 0;
+
+        #2 
+        $display("\nPonto escolhido: %d %d  Triangulo: %d %d  %d %d  %d %d\nDentro? %d", x, y, x1, y1, x2, y2, x3, y3, resul);
+        #2
 
         #40
         $finish;
     end 
-
-
 endmodule
