@@ -56,7 +56,7 @@ module Verifica(
 
     output inside
 );
-
+    
     wire signed[21:0] s, s1, s2, s3;
 
     Area a(x1, y1, x2, y2, x3, y3, s);  //triangulo principal
