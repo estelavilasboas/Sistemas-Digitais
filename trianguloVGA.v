@@ -1,3 +1,10 @@
+module Mod(
+	input signed [21:0]i,
+	output signed [21:0] j
+);
+	assign j = i[21]? -i : i;
+endmodule
+
 module Area(
     input [11:0]x1,
     input [11:0]y1,
@@ -36,7 +43,8 @@ module Area(
     assign Div = (Ad/2);
 
     always @(x1 or y1 or x2 or y2 or x3 or y3) begin
-        area = $abs(Div);           //valor absoluto
+        //area = $abs(Div);           //valor absoluto
+		  Mod M(Div, area);
     end  
 endmodule
 
@@ -75,16 +83,6 @@ module trianguloVGA (
     output VGA_HS,
     output VGA_VS);
 
-    /*pontos do triangulo */
-    reg signed [11:0] x1;
-    reg signed [11:0] y1;
-    reg signed [11:0] x2;
-    reg signed [11:0] y2;
-    reg signed [11:0] x3;
-    reg signed [11:0] y3;
-    reg signed [11:0] x;
-    reg signed [11:0] y;   
-
     reg [10:0] cx = 0;
     reg [9:0]  cy = 0;
     reg [11:0] c;
@@ -96,22 +94,10 @@ module trianguloVGA (
     assign VGA_B = v ? c[11:8] : 4'b0;
 
     wire v = (cx >= 285) & (cx < 1555) & (cy >= 35) & (cy < 515);
-    Verifica V(x1, y1, x2, y2, x3, y3, x, y, r);
+    Verifica V( 286, 36, 300, 300, 1000, 500, cx, cy, r);
 
     assign VGA_HS = cx >= 190;
     assign VGA_VS = cy >= 2;
-
-    initial begin
-        x1 <= 0;
-        y1 <= 0;
-        x2 <= 20;
-        y2 <= 0;
-        x3 <= 20;
-        y3 <= 30;
-        x <= 10;
-        y <= 5;
-
-    end
 
     always @(posedge CLOCK_50) begin
         if (cx == 1585) begin
@@ -133,4 +119,6 @@ module trianguloVGA (
          else begin
             c = 12'h0f0;
          end
-    end
+	end
+	
+endmodule
