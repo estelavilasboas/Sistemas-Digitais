@@ -42,10 +42,8 @@ module Area(
 
     assign Div = (Ad/2);
 
-    always @(x1 or y1 or x2 or y2 or x3 or y3) begin
-        //area = $abs(Div);           //valor absoluto
-		  Mod M(Div, area);
-    end  
+    Mod M(Div, area);
+	
 endmodule
 
 
