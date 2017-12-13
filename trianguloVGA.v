@@ -19,17 +19,14 @@ module Area(
     output [17:0] s
 );
     
-    wire [17:0] Mx1, Mx2, Mx3, Ad;   //multiplicação por x do ponto 1, x do ponto 2 e x do ponto 3, e adição de todos
-    wire signed [17:0] Div;
+    wire [17:0] Ad1, Ad2;   		//adições
+    wire signed [17:0] Sub;		//subtração de tudo
        
-    assign Mx1 = (x1 * (y2 - y3));
-    assign Mx2 = (x2 * (y3 - y1));
-    assign Mx3 = (x3 * (y1 - y2));
-    
-    assign Ad = (Mx1 + Mx2 + Mx3);
-    assign Div = (Ad/2);
+    assign Ad1 = ((x1 * y2) + (y1 * x3) + (x2 * y3));
+    assign Ad2 = ((y1 * x2) + (x1 * y3) + (y2 * x3));
+    assign Sub = (Ad1 - Ad2);
 
-    Mod M(Div, s);
+    Mod M(Sub, s);
 	
 endmodule
 
